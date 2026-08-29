@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <meta name="theme-color" content="#050711">
+
+    <meta name="description" content="A little cinematic universe created for a very special birthday.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <title>When The Stars Remember ✦</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="app">
+
+        <!-- =====================================================
+         LOADING
+    ====================================================== -->
+
+        <div id="loader">
+
+            <div class="loader-orbit"></div>
+
+            <div class="loader-content">
+
+                <div class="loader-star">✦</div>
+
+                <p class="loader-small">
+                    A LITTLE UNIVERSE IS BEING PREPARED
+                </p>
+
+                <h1>
+                    When The Stars Remember
+                </h1>
+
+                <div class="loader-line">
+                    <span id="loader-bar"></span>
+                </div>
+
+                <p id="loader-status">
+                    Finding the moon...
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+         CINEMATIC WORLD
+    ====================================================== -->
+
+        <main id="world" aria-hidden="true">
+
+            <!-- Background -->
+
+            <div class="sky">
+
+                <img id="background" src="background.png" alt="" draggable="false">
+
+                <div class="sky-tint"></div>
+
+                <div id="stars"></div>
+
+                <div id="shooting-stars"></div>
+
+                <div class="moon">
+
+                    <div class="moon-glow"></div>
+
+                    <img id="moon-image" src="moon.png" alt="" draggable="false">
+
+                </div>
+
+            </div>
+
+
+            <!-- Atmospheric layers -->
+
+            <div class="atmosphere">
+
+                <div class="aurora aurora-one"></div>
+                <div class="aurora aurora-two"></div>
+
+                <div id="fireflies"></div>
+
+                <div class="mist mist-one"></div>
+                <div class="mist mist-two"></div>
+
+            </div>
+
+
+            <!-- World depth -->
+
+            <div class="world-depth">
+
+                <div class="mountain mountain-back"></div>
+                <div class="mountain mountain-mid"></div>
+
+                <div class="tree-line tree-line-back"></div>
+                <div class="tree-line tree-line-front"></div>
+
+                <div class="ground"></div>
+
+            </div>
+
+
+            <!-- =================================================
+             MOVIE
+        ================================================== -->
+
+            <div id="movie">
+
+
+                <!-- =============================================
+                 CHAPTER 1
+            ============================================== -->
+
+                <section id="scene-intro" class="scene active">
+
+                    <div class="cinematic-copy">
+
+                        <p class="chapter-label">
+                            CHAPTER I · THE BEGINNING
+                        </p>
+
+                        <h2>
+                            Some nights
+                            <span>remember.</span>
+                        </h2>
+
+                        <p class="copy">
+                            Somewhere between starlight and memory,
+                            a little story begins.
+                        </p>
+
+                        <button id="begin-button" class="cinematic-button">
+                            <span>Begin the journey</span>
+                            <b>→</b>
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =============================================
+                 CHAPTER 2
+            ============================================== -->
+
+                <section id="scene-forest" class="scene">
+
+                    <div class="cinematic-copy forest-copy">
+
+                        <p class="chapter-label">
+                            CHAPTER II · THE PATH
+                        </p>
+
+                        <h2>
+                            Follow the
+                            <span>little light.</span>
+                        </h2>
+
+                        <p class="copy">
+                            There is something waiting
+                            beyond the quiet trees.
+                        </p>
+
+                        <button id="forest-button" class="cinematic-button">
+                            <span>Walk beneath the stars</span>
+                            <b>→</b>
+                        </button>
+
+                    </div>
+
+
+                    <!-- CSS panda -->
+
+                    <div id="panda" class="panda" aria-hidden="true">
+                        <img src="panda.png" alt="" class="panda-image" draggable="false">
+                    </div>
+
+                </section>
+
+
+                <!-- =============================================
+                 CHAPTER 3 — STAR HUNT
+            ============================================== -->
+
+                <section id="scene-stars" class="scene">
+
+                    <div class="cinematic-copy star-copy">
+
+                        <p class="chapter-label">
+                            CHAPTER III · CONSTELLATION
+                        </p>
+
+                        <h2>
+                            Some stars
+                            <span>hide for a reason.</span>
+                        </h2>
+
+                        <p id="star-instruction" class="copy">
+                            Find the five glowing stars.
+                        </p>
+
+                    </div>
+
+
+                    <div id="interactive-stars" aria-label="Five interactive stars"></div>
+
+
+                    <div id="star-counter" class="star-counter">
+                        <span id="stars-found">0</span>
+                        <span>/</span>
+                        <span>5</span>
+                    </div>
+
+
+                    <div id="constellation" aria-hidden="true"></div>
+
+                </section>
+
+
+                <!-- =============================================
+                 CHAPTER 4 — GIFT
+            ============================================== -->
+
+                <section id="scene-gift" class="scene">
+
+                    <div class="cinematic-copy gift-copy">
+
+                        <p class="chapter-label">
+                            CHAPTER IV · A LITTLE SURPRISE
+                        </p>
+
+                        <h2>
+                            You found
+                            <span>something.</span>
+                        </h2>
+
+                        <p class="copy">
+                            Maybe the stars were leading you here all along.
+                        </p>
+
+                    </div>
+
+
+                    <button id="gift" class="gift" aria-label="Open the birthday gift">
+
+                        <div class="gift-aura"></div>
+
+                        <div class="gift-box">
+
+                            <div class="gift-lid"></div>
+
+                            <div class="gift-body">
+
+                                <div class="gift-ribbon vertical"></div>
+                                <div class="gift-ribbon horizontal"></div>
+
+                            </div>
+
+                            <div class="gift-bow">
+
+                                <span></span>
+                                <span></span>
+
+                            </div>
+
+                        </div>
+
+                    </button>
+
+
+                    <p id="gift-hint" class="object-hint">
+                        ✦ tap the gift
+                    </p>
+
+                </section>
+
+
+                <!-- =============================================
+                 CHAPTER 5 — LETTER
+            ============================================== -->
+
+                <section id="scene-letter" class="scene">
+
+                    <div class="letter-scene">
+
+                        <p class="chapter-label">
+                            CHAPTER V · A MESSAGE
+                        </p>
+
+
+                        <div id="letter" class="letter">
+
+                            <div class="letter-inner">
+
+                                <div class="letter-star">
+                                    ✦
+                                </div>
+
+                                <p class="letter-small">
+                                    TO SOMEONE VERY SPECIAL
+                                </p>
+
+                                <h2>
+                                    For you.
+                                </h2>
+
+                                <div id="letter-text" class="letter-text"></div>
+
+                                <div id="letter-signature" class="letter-signature">
+                                    — from someone who wanted
+                                    this night to feel special ✦
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <button id="letter-button" class="cinematic-button">
+                            <span>Open the letter</span>
+                            <b>→</b>
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =============================================
+                 CHAPTER 6 — FINALE
+            ============================================== -->
+
+                <section id="scene-ending" class="scene">
+
+                    <div id="finale-glow"></div>
+
+                    <div class="finale-copy">
+
+                        <p class="chapter-label">
+                            CHAPTER VI · TONIGHT
+                        </p>
+
+                        <p class="finale-pretitle">
+                            And the stars had one last thing to say...
+                        </p>
+
+                        <h2>
+                            Happy Birthday Prarthana
+                            <span></span>
+                        </h2>
+
+                        <h3 id="birthday-name">
+                            To someone wonderfully you.
+                        </h3>
+
+                        <p id="birthday-message">
+                            May your life always have
+                            reasons to look up at the stars.
+                        </p>
+
+                        <div class="finale-divider">
+                            <span></span>
+                            ✦
+                            <span></span>
+                        </div>
+
+                        <p class="finale-end">
+                            The little universe will always remember tonight.
+                        </p>
+
+                    </div>
+
+
+                    <canvas id="fireworks" aria-hidden="true"></canvas>
+
+                </section>
+
+
+            </div>
+
+
+            <!-- =================================================
+             CINEMATIC UI
+        ================================================== -->
+
+            <div id="ui">
+
+                <div id="chapter">
+                    CHAPTER I
+                </div>
+
+
+                <div id="progress">
+
+                    <span id="progress-bar"></span>
+
+                </div>
+
+
+                <button id="sound-button" aria-label="Toggle music">
+                    <span id="sound-symbol">♫</span>
+                    <span id="sound-text">SOUND</span>
+                </button>
+
+
+                <div id="subtitle" aria-live="polite"></div>
+
+            </div>
+
+
+            <!-- Vignette -->
+
+            <div class="vignette"></div>
+
+            <!-- Cinematic transition -->
+
+            <div id="transition"></div>
+
+
+        </main>
+
+
+        <!-- =====================================================
+         AUDIO
+         
+         Your file is inside:
+         music/forgotten-words.mp3
+    ====================================================== -->
+
+        <audio id="backgroundMusic" loop preload="auto">
+            <source src="music/forgotten-words.mp3" type="audio/mpeg">
+        </audio>
+
+
+        <!-- =====================================================
+         SCRIPT
+    ====================================================== -->
+
+        <script src="script.js" defer></script>
+
+    </div>
+
+</body>
+
+</html>

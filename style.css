@@ -1,0 +1,2327 @@
+/* ============================================================
+   WHEN THE STARS REMEMBER
+   PREMIUM CINEMATIC ANIME EXPERIENCE
+============================================================ */
+
+:root {
+    --night: #04060e;
+    --deep: #070b19;
+    --moon: #dce7ff;
+    --white: #f8f9ff;
+    --soft: rgba(240, 244, 255, 0.72);
+    --gold: #f4d99a;
+    --blue: #91baff;
+    --glass: rgba(10, 15, 31, 0.42);
+    --ease: cubic-bezier(.22, .8, .2, 1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--night);
+}
+
+body {
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    color: var(--white);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+button {
+    font: inherit;
+}
+
+button:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 5px;
+}
+
+
+/* ============================================================
+   APP
+============================================================ */
+
+#app {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: var(--night);
+}
+
+
+/* ============================================================
+   LOADER
+============================================================ */
+
+#loader {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: grid;
+    place-items: center;
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(35, 52, 96, .32),
+            transparent 42%
+        ),
+        #04060e;
+
+    transition:
+        opacity 1.2s var(--ease),
+        visibility 1.2s;
+}
+
+#loader.loaded {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader-content {
+    position: relative;
+    width: min(90vw, 600px);
+    text-align: center;
+}
+
+.loader-star {
+    font-size: 32px;
+    margin-bottom: 26px;
+    animation: loaderPulse 2s ease-in-out infinite;
+}
+
+.loader-small {
+    font-family: Arial, sans-serif;
+    letter-spacing: .38em;
+    font-size: 9px;
+    opacity: .5;
+    margin-bottom: 18px;
+}
+
+.loader-content h1 {
+    font-size: clamp(28px, 5vw, 58px);
+    font-weight: 400;
+    letter-spacing: -.025em;
+    margin-bottom: 38px;
+}
+
+.loader-line {
+    height: 1px;
+    background: rgba(255,255,255,.13);
+    overflow: hidden;
+}
+
+#loader-bar {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--moon),
+        transparent
+    );
+    transition: width .3s ease;
+}
+
+#loader-status {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    opacity: .38;
+    margin-top: 18px;
+}
+
+.loader-orbit {
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    border: 1px solid rgba(255,255,255,.035);
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   WORLD
+============================================================ */
+
+#world {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+
+    opacity: 0;
+    transform: scale(1.025);
+
+    transition:
+        opacity 2s ease,
+        transform 3s var(--ease);
+}
+
+#world.ready {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.sky,
+.atmosphere,
+.world-depth,
+#movie,
+#ui,
+.vignette,
+#transition {
+    position: absolute;
+    inset: 0;
+}
+
+
+/* ============================================================
+   BACKGROUND
+============================================================ */
+
+.sky {
+    overflow: hidden;
+    background: #07101f;
+}
+
+#background {
+    position: absolute;
+    inset: -4%;
+
+    width: 108%;
+    height: 108%;
+
+    object-fit: cover;
+    object-position: center;
+
+    filter:
+        saturate(.82)
+        brightness(.72)
+        contrast(1.05);
+
+    transform:
+        scale(1.025)
+        translate3d(0,0,0);
+
+    animation: backgroundBreath 24s ease-in-out infinite alternate;
+}
+
+.sky-tint {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(2,5,17,.28) 0%,
+            rgba(4,7,18,.08) 35%,
+            rgba(2,5,12,.58) 100%
+        );
+}
+
+
+/* ============================================================
+   MOON
+============================================================ */
+
+.moon {
+    position: absolute;
+
+    width: clamp(180px, 20vw, 340px);
+    aspect-ratio: 1;
+
+    top: 0%;
+    left: 3%;
+
+    animation:
+        moonFloat 10s ease-in-out infinite,
+        moonDrift 28s ease-in-out infinite alternate;
+
+    z-index: 3;
+}
+
+#moon-image {
+    position: absolute;
+    inset: 8%;
+
+    width: 84%;
+    height: 84%;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            0 0 25px rgba(215,230,255,.38)
+        )
+        drop-shadow(
+            0 0 70px rgba(137,170,255,.18)
+        );
+}
+
+.moon-glow {
+    position: absolute;
+    inset: -35%;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(210,225,255,.22) 0%,
+            rgba(150,180,255,.08) 28%,
+            transparent 67%
+        );
+
+    filter: blur(10px);
+}
+
+
+/* ============================================================
+   STARS
+============================================================ */
+
+#stars,
+#shooting-stars,
+#fireflies {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+
+    width: 2px;
+    height: 2px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    box-shadow:
+        0 0 5px rgba(255,255,255,.8),
+        0 0 12px rgba(180,205,255,.35);
+
+    animation:
+        starTwinkle var(--duration) ease-in-out infinite;
+}
+
+.star.large {
+    width: 3px;
+    height: 3px;
+}
+
+
+/* ============================================================
+   SHOOTING STARS
+============================================================ */
+
+.shooting-star {
+    position: absolute;
+    width: 100px;
+    height: 1px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.8)
+    );
+
+    transform: rotate(-28deg);
+    opacity: 0;
+
+    animation: shootingStar 7s linear infinite;
+}
+
+
+/* ============================================================
+   AURORA
+============================================================ */
+
+.aurora {
+    position: absolute;
+
+    width: 65vw;
+    height: 40vh;
+
+    border-radius: 50%;
+
+    filter: blur(70px);
+    opacity: .12;
+
+    mix-blend-mode: screen;
+}
+
+.aurora-one {
+    top: 0;
+    left: -10%;
+
+    background: #365b9b;
+
+    animation: auroraOne 16s ease-in-out infinite alternate;
+}
+
+.aurora-two {
+    top: 15%;
+    right: -20%;
+
+    background: #80619c;
+
+    animation: auroraTwo 20s ease-in-out infinite alternate;
+}
+
+
+/* ============================================================
+   FIRELIES
+============================================================ */
+
+.firefly {
+    position: absolute;
+
+    width: 4px;
+    height: 4px;
+
+    border-radius: 50%;
+
+    background: #ffe7a8;
+
+    box-shadow:
+        0 0 8px #ffe9a9,
+        0 0 22px rgba(255,221,130,.55);
+
+    animation:
+        fireflyFloat var(--duration) ease-in-out infinite;
+}
+
+
+/* ============================================================
+   MIST
+============================================================ */
+
+.mist {
+    position: absolute;
+
+    width: 70%;
+    height: 30%;
+
+    border-radius: 50%;
+
+    background: rgba(185,205,235,.09);
+
+    filter: blur(45px);
+
+    opacity: .3;
+}
+
+.mist-one {
+    bottom: 15%;
+    left: -10%;
+    animation: mistMove 18s ease-in-out infinite alternate;
+}
+
+.mist-two {
+    bottom: 5%;
+    right: -20%;
+    animation: mistMove 24s ease-in-out infinite alternate-reverse;
+}
+
+
+/* ============================================================
+   WORLD DEPTH
+============================================================ */
+
+.mountain {
+    position: absolute;
+    bottom: 17%;
+    width: 100%;
+    height: 38%;
+
+    clip-path: polygon(
+        0 100%,
+        0 64%,
+        8% 46%,
+        16% 67%,
+        25% 30%,
+        33% 64%,
+        44% 22%,
+        53% 59%,
+        63% 35%,
+        72% 67%,
+        84% 28%,
+        94% 63%,
+        100% 42%,
+        100% 100%
+    );
+}
+
+.mountain-back {
+    background: rgba(7,15,32,.65);
+    opacity: .7;
+}
+
+.mountain-mid {
+    bottom: 10%;
+    height: 28%;
+    background: rgba(4,9,20,.85);
+    opacity: .8;
+}
+
+.tree-line {
+    position: absolute;
+    bottom: 8%;
+
+    width: 110%;
+    height: 35%;
+
+    opacity: .65;
+
+    background:
+        linear-gradient(
+            135deg,
+            transparent 30%,
+            #050b13 31%,
+            #050b13 34%,
+            transparent 35%
+        );
+
+    background-size: 90px 100%;
+}
+
+.tree-line-back {
+    filter: blur(1px);
+    transform: translateX(-3%);
+}
+
+.tree-line-front {
+    bottom: 0;
+    opacity: .9;
+    transform: translateX(3%);
+    background-size: 70px 100%;
+}
+
+.ground {
+    position: absolute;
+    left: -5%;
+    right: -5%;
+    bottom: -15%;
+
+    height: 35%;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 0%,
+            rgba(38,60,65,.35),
+            transparent 62%
+        ),
+        linear-gradient(
+            180deg,
+            rgba(2,6,10,.15),
+            #020409 75%
+        );
+
+    border-radius: 50% 50% 0 0 / 20% 20% 0 0;
+}
+
+
+/* ============================================================
+   MOVIE
+============================================================ */
+
+#movie {
+    z-index: 20;
+}
+
+.scene {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: scale(1.035);
+
+    transition:
+        opacity 1.4s var(--ease),
+        transform 2s var(--ease),
+        visibility 1.4s;
+}
+
+.scene.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: scale(1);
+}
+
+.scene.leaving {
+    opacity: 0;
+    transform: scale(.98);
+}
+
+
+/* ============================================================
+   CINEMATIC COPY
+============================================================ */
+
+.cinematic-copy {
+    position: absolute;
+
+    left: 9%;
+    bottom: 15%;
+
+    width: min(650px, 82vw);
+
+    text-shadow:
+        0 3px 30px rgba(0,0,0,.75);
+}
+
+.chapter-label {
+    font-family: Arial, sans-serif;
+
+    font-size: 9px;
+    letter-spacing: .42em;
+
+    color: rgba(240,245,255,.58);
+
+    margin-bottom: 22px;
+}
+
+.cinematic-copy h2 {
+    font-size: clamp(46px, 7vw, 100px);
+
+    line-height: .93;
+    font-weight: 400;
+
+    letter-spacing: -.045em;
+
+    margin-bottom: 25px;
+}
+
+.cinematic-copy h2 span {
+    display: block;
+    color: rgba(232,239,255,.72);
+}
+
+.copy {
+    max-width: 450px;
+
+    color: rgba(238,243,255,.67);
+
+    font-size: clamp(15px, 1.4vw, 20px);
+
+    line-height: 1.7;
+
+    margin-bottom: 34px;
+}
+
+
+/* ============================================================
+   BUTTON
+============================================================ */
+
+.cinematic-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 28px;
+
+    min-height: 52px;
+
+    padding: 0 25px;
+
+    border: 1px solid rgba(255,255,255,.28);
+    border-radius: 100px;
+
+    color: white;
+
+    background:
+        rgba(5,8,17,.28);
+
+    backdrop-filter: blur(14px);
+
+    cursor: pointer;
+
+    transition:
+        background .4s ease,
+        border-color .4s ease,
+        transform .4s var(--ease),
+        box-shadow .4s ease;
+}
+
+.cinematic-button b {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.cinematic-button:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255,255,255,.65);
+
+    background: rgba(255,255,255,.09);
+
+    box-shadow:
+        0 12px 45px rgba(0,0,0,.3);
+}
+
+
+/* ============================================================
+   PANDA
+============================================================ */
+
+.panda {
+    position: absolute;
+
+    width: 130px;
+    height: 180px;
+
+    left: 68%;
+    bottom: 12%;
+
+    opacity: 0;
+
+    transform:
+        translateY(40px)
+        scale(.85);
+
+    transition:
+        opacity 1.5s var(--ease),
+        transform 2s var(--ease);
+
+    filter:
+        drop-shadow(0 25px 35px rgba(0,0,0,.45));
+}
+
+#scene-forest.active .panda {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.panda-head {
+    position: absolute;
+
+    width: 105px;
+    height: 92px;
+
+    left: 12px;
+    top: 5px;
+
+    border-radius: 48% 48% 45% 45%;
+
+    background: #f1f1ec;
+
+    box-shadow:
+        inset 0 -8px 15px rgba(0,0,0,.08);
+}
+
+.panda-ear {
+    position: absolute;
+
+    width: 38px;
+    height: 38px;
+
+    top: 0;
+
+    background: #11151c;
+
+    border-radius: 50%;
+}
+
+.panda-ear.left {
+    left: 6px;
+}
+
+.panda-ear.right {
+    right: 6px;
+}
+
+.panda-eye {
+    position: absolute;
+
+    width: 28px;
+    height: 37px;
+
+    top: 29px;
+
+    border-radius: 50%;
+
+    background: #161a22;
+
+    transform: rotate(35deg);
+}
+
+.panda-eye.left {
+    left: 16px;
+}
+
+.panda-eye.right {
+    right: 16px;
+    transform: rotate(-35deg);
+}
+
+.panda-eye::after {
+    content: "";
+
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    top: 8px;
+    left: 8px;
+
+    border-radius: 50%;
+
+    background: white;
+}
+
+.panda-nose {
+    position: absolute;
+
+    width: 12px;
+    height: 9px;
+
+    left: 46px;
+    top: 59px;
+
+    background: #111;
+
+    border-radius: 50%;
+}
+
+.panda-mouth {
+    position: absolute;
+
+    width: 16px;
+    height: 8px;
+
+    left: 44px;
+    top: 66px;
+
+    border-bottom: 2px solid #111;
+    border-radius: 0 0 50% 50%;
+}
+
+.panda-body {
+    position: absolute;
+
+    width: 96px;
+    height: 105px;
+
+    left: 17px;
+    top: 76px;
+
+    background: #11151c;
+
+    border-radius: 48% 48% 35% 35%;
+}
+
+.panda-foot {
+    position: absolute;
+
+    width: 37px;
+    height: 26px;
+
+    bottom: -2px;
+
+    border-radius: 50%;
+
+    background: #11151c;
+}
+
+.panda-foot.left {
+    left: 16px;
+}
+
+.panda-foot.right {
+    right: 16px;
+}
+
+
+/* ============================================================
+   STAR HUNT
+============================================================ */
+
+#interactive-stars {
+    position: absolute;
+    inset: 0;
+}
+
+.interactive-star {
+    position: absolute;
+
+    width: 22px;
+    height: 22px;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    transition:
+        transform .5s var(--ease),
+        opacity .7s ease;
+}
+
+.interactive-star::before {
+    content: "✦";
+
+    position: absolute;
+    inset: 0;
+
+    display: grid;
+    place-items: center;
+
+    color: white;
+
+    font-size: 18px;
+
+    text-shadow:
+        0 0 8px white,
+        0 0 22px #91baff,
+        0 0 45px #668dff;
+
+    animation: interactiveStar 2.5s ease-in-out infinite;
+}
+
+.interactive-star:hover {
+    transform: scale(1.8);
+}
+
+.interactive-star.found {
+    transform: scale(3);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.star-copy {
+    top: 13%;
+    left: 50%;
+
+    bottom: auto;
+
+    transform: translateX(-50%);
+
+    text-align: center;
+
+    width: min(700px, 90vw);
+}
+
+.star-copy h2 {
+    font-size: clamp(40px, 6vw, 78px);
+}
+
+.star-counter {
+    position: absolute;
+
+    top: 7%;
+    right: 7%;
+
+    font-family: Arial, sans-serif;
+
+    letter-spacing: .25em;
+    font-size: 11px;
+
+    color: rgba(255,255,255,.6);
+}
+
+#constellation {
+    position: absolute;
+    inset: 0;
+
+    opacity: 0;
+
+    transition: opacity 1.5s ease;
+
+    pointer-events: none;
+}
+
+#constellation.complete {
+    opacity: 1;
+}
+
+
+/* ============================================================
+   GIFT
+============================================================ */
+
+.gift-copy {
+    top: 15%;
+    left: 50%;
+
+    bottom: auto;
+
+    transform: translateX(-50%);
+
+    text-align: center;
+}
+
+.gift-copy h2 {
+    font-size: clamp(40px, 6vw, 80px);
+}
+
+/* ============================================================
+   GIFT — PREMIUM CINEMATIC PRESENT
+   ============================================================ */
+
+.gift {
+    position: absolute;
+
+    left: 50%;
+    top: 58%;
+
+    width: 210px;
+    height: 190px;
+
+    border: 0;
+    background: transparent;
+
+    transform: translate(-50%, -50%);
+
+    cursor: pointer;
+
+    z-index: 30;
+
+    filter:
+        drop-shadow(0 25px 30px rgba(0,0,0,.5))
+        drop-shadow(0 0 35px rgba(244,217,154,.12));
+
+    transition:
+        transform .7s cubic-bezier(.22,1,.36,1),
+        filter .7s ease;
+}
+
+
+/* Hover */
+
+.gift:hover {
+    transform:
+        translate(-50%, -50%)
+        translateY(-8px)
+        scale(1.06);
+
+    filter:
+        drop-shadow(0 35px 45px rgba(0,0,0,.55))
+        drop-shadow(0 0 55px rgba(244,217,154,.25));
+}
+
+
+/* ============================================================
+   GLOWING AURA
+   ============================================================ */
+
+.gift-aura {
+    position: absolute;
+
+    width: 340px;
+    height: 340px;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,225,160,.22) 0%,
+            rgba(190,160,100,.12) 25%,
+            rgba(100,120,180,.06) 45%,
+            transparent 70%
+        );
+
+    filter: blur(18px);
+
+    animation:
+        giftAuraPremium 4s ease-in-out infinite;
+
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   GIFT BOX
+   ============================================================ */
+
+.gift-box {
+    position: absolute;
+
+    width: 150px;
+    height: 125px;
+
+    left: 30px;
+    top: 55px;
+
+    transform-style: preserve-3d;
+
+    filter:
+        drop-shadow(0 20px 20px rgba(0,0,0,.35));
+}
+
+
+/* Main body */
+
+.gift-body {
+    position: absolute;
+
+    inset: 18px 0 0;
+
+    border-radius: 4px 4px 14px 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #391726 0%,
+            #71364d 25%,
+            #9c536b 50%,
+            #71364d 75%,
+            #351522 100%
+        );
+
+    box-shadow:
+        inset 8px 0 18px rgba(255,255,255,.08),
+        inset -10px 0 25px rgba(0,0,0,.25),
+        0 22px 40px rgba(0,0,0,.4);
+
+    overflow: hidden;
+}
+
+
+/* Satin-like reflection */
+
+.gift-body::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            115deg,
+            transparent 25%,
+            rgba(255,255,255,.14) 42%,
+            transparent 58%
+        );
+
+    transform:
+        translateX(-120%);
+
+    animation:
+        giftShine 5s ease-in-out infinite;
+
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   LID
+   ============================================================ */
+
+.gift-lid {
+    position: absolute;
+
+    z-index: 5;
+
+    width: 162px;
+    height: 34px;
+
+    left: -6px;
+    top: 3px;
+
+    border-radius: 7px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #522038,
+            #a85b76 42%,
+            #7b3855 70%,
+            #40172a
+        );
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.35),
+        inset 0 2px 5px rgba(255,255,255,.13);
+
+    transform-origin: left bottom;
+
+    transition:
+        transform 1.2s cubic-bezier(.22,1,.36,1),
+        box-shadow .8s ease;
+}
+
+
+/* Lid highlight */
+
+.gift-lid::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 2px;
+
+    border-radius: 5px;
+
+    border-top: 1px solid rgba(255,255,255,.2);
+
+    pointer-events: none;
+}
+
+
+/* Opening */
+
+.gift.open .gift-lid {
+    transform:
+        rotate(-24deg)
+        translate(-8px,-18px);
+
+    box-shadow:
+        0 15px 30px rgba(0,0,0,.35);
+}
+
+
+/* ============================================================
+   GOLD RIBBON
+   ============================================================ */
+
+.gift-ribbon {
+    position: absolute;
+
+    z-index: 8;
+
+    background:
+        linear-gradient(
+            90deg,
+            #9b7435,
+            #f4d99a,
+            #fff0bd,
+            #c99b4c,
+            #8d652b
+        );
+
+    box-shadow:
+        0 0 10px rgba(244,217,154,.2);
+}
+
+
+/* Vertical ribbon */
+
+.gift-ribbon.vertical {
+    width: 19px;
+    height: 100%;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+}
+
+
+/* Horizontal ribbon */
+
+.gift-ribbon.horizontal {
+    width: 100%;
+    height: 17px;
+
+    left: 0;
+    top: 45px;
+}
+
+
+/* ============================================================
+   BOW
+   ============================================================ */
+
+.gift-bow {
+    position: absolute;
+
+    z-index: 12;
+
+    left: 50%;
+    top: -13px;
+
+    transform:
+        translateX(-50%);
+
+    display: flex;
+
+    gap: 0;
+}
+
+
+/* Bow loops */
+
+.gift-bow span {
+    position: relative;
+
+    display: block;
+
+    width: 43px;
+    height: 30px;
+
+    border: 8px solid #e6c574;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,239,184,.85),
+            rgba(166,119,46,.9)
+        );
+
+    border-radius:
+        85% 20% 80% 25%;
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,.3),
+        0 0 12px rgba(244,217,154,.2);
+}
+
+
+.gift-bow span:first-child {
+    transform:
+        rotate(25deg)
+        translateX(3px);
+}
+
+
+.gift-bow span:last-child {
+    transform:
+        rotate(-25deg)
+        translateX(-3px);
+}
+
+
+/* Center jewel */
+
+.gift-bow::after {
+    content: "";
+
+    position: absolute;
+
+    width: 16px;
+    height: 16px;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%,-50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #fff7d2,
+            #e8c96e 45%,
+            #9b6c25
+        );
+
+    box-shadow:
+        0 0 12px rgba(255,230,150,.75);
+}
+
+
+/* ============================================================
+   PARTICLE SPARKLES
+   ============================================================ */
+
+.gift::before,
+.gift::after {
+    content: "✦";
+
+    position: absolute;
+
+    color: #f7dfa1;
+
+    font-size: 18px;
+
+    text-shadow:
+        0 0 8px #fff,
+        0 0 20px rgba(244,217,154,.8);
+
+    pointer-events: none;
+}
+
+
+.gift::before {
+    left: -15px;
+    top: 40px;
+
+    animation:
+        giftSparkleOne 2.8s ease-in-out infinite;
+}
+
+
+.gift::after {
+    right: -15px;
+    bottom: 35px;
+
+    font-size: 13px;
+
+    animation:
+        giftSparkleTwo 3.4s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   CLICK HINT
+   ============================================================ */
+
+.object-hint {
+    position: absolute;
+
+    top: 82%;
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    font-family: Arial, sans-serif;
+
+    font-size: 9px;
+
+    letter-spacing: .35em;
+
+    color: rgba(255,255,255,.55);
+
+    white-space: nowrap;
+
+    animation:
+        hintPulse 2s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes giftAuraPremium {
+
+    0%,100% {
+        transform:
+            translate(-50%,-50%)
+            scale(.82);
+
+        opacity: .4;
+    }
+
+    50% {
+        transform:
+            translate(-50%,-50%)
+            scale(1.12);
+
+        opacity: .85;
+    }
+}
+
+
+@keyframes giftShine {
+
+    0% {
+        transform: translateX(-130%);
+    }
+
+    35%,
+    100% {
+        transform: translateX(130%);
+    }
+}
+
+
+@keyframes giftSparkleOne {
+
+    0%,100% {
+        opacity: .2;
+        transform: translate(0,8px) scale(.7) rotate(0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translate(-5px,-8px) scale(1.3) rotate(45deg);
+    }
+}
+
+
+@keyframes giftSparkleTwo {
+
+    0%,100% {
+        opacity: .15;
+        transform: translate(0,5px) scale(.7) rotate(0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translate(6px,-10px) scale(1.25) rotate(-45deg);
+    }
+}
+
+/* ============================================================
+   LETTER
+============================================================ */
+
+.letter-scene {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.letter-scene > .chapter-label {
+    margin-bottom: 30px;
+}
+
+.letter {
+    position: relative;
+
+    width: min(620px, 86vw);
+    min-height: 390px;
+
+    padding: 3px;
+
+    border-radius: 4px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.5),
+            rgba(255,255,255,.05)
+        );
+
+    box-shadow:
+        0 40px 100px rgba(0,0,0,.5);
+
+    transform:
+        perspective(1000px)
+        rotateX(8deg)
+        translateY(40px);
+
+    opacity: 0;
+
+    transition:
+        opacity 1.2s ease,
+        transform 1.4s var(--ease);
+}
+
+#scene-letter.active .letter {
+    opacity: 1;
+
+    transform:
+        perspective(1000px)
+        rotateX(0)
+        translateY(0);
+}
+
+.letter-inner {
+    min-height: 384px;
+
+    padding: 48px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(247,242,227,.97),
+            rgba(225,220,207,.97)
+        );
+
+    color: #242431;
+
+    border-radius: 2px;
+
+    box-shadow:
+        inset 0 0 50px rgba(120,100,60,.08);
+}
+
+.letter-star {
+    color: #a88b55;
+    margin-bottom: 13px;
+}
+
+.letter-small {
+    font-family: Arial, sans-serif;
+
+    font-size: 8px;
+    letter-spacing: .35em;
+
+    color: rgba(40,40,45,.5);
+
+    margin-bottom: 15px;
+}
+
+.letter h2 {
+    font-size: 42px;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+.letter-text {
+    min-height: 100px;
+
+    font-size: 17px;
+    line-height: 1.9;
+
+    color: rgba(30,30,38,.75);
+}
+
+.letter-signature {
+    margin-top: 25px;
+
+    font-size: 13px;
+    font-style: italic;
+
+    color: rgba(30,30,38,.5);
+}
+
+#letter-button {
+    margin-top: 30px;
+    opacity: 0;
+
+    transition:
+        opacity 1s ease .8s,
+        transform .4s ease;
+}
+
+#scene-letter.active #letter-button {
+    opacity: 1;
+}
+
+
+/* ============================================================
+   FINALE
+============================================================ */
+
+#scene-ending {
+    background:
+        radial-gradient(
+            circle at 50% 48%,
+            rgba(84,106,178,.15),
+            transparent 50%
+        );
+}
+
+#finale-glow {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 600px;
+    height: 600px;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(190,211,255,.18),
+            transparent 65%
+        );
+
+    filter: blur(15px);
+
+    animation: finaleGlow 5s ease-in-out infinite;
+}
+
+.finale-copy {
+    position: relative;
+
+    z-index: 5;
+
+    width: min(900px, 90vw);
+
+    text-align: center;
+
+    transform: translateY(30px);
+
+    opacity: 0;
+
+    transition:
+        opacity 2s ease,
+        transform 2s var(--ease);
+}
+
+#scene-ending.active .finale-copy {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.finale-pretitle {
+    font-size: 16px;
+    font-style: italic;
+
+    color: rgba(235,240,255,.55);
+
+    margin-bottom: 20px;
+}
+
+.finale-copy h2 {
+    font-size: clamp(55px, 10vw, 130px);
+
+    line-height: .9;
+
+    font-weight: 400;
+
+    letter-spacing: -.055em;
+
+    margin-bottom: 25px;
+
+    text-shadow:
+        0 0 50px rgba(175,200,255,.15);
+}
+
+.finale-copy h2 span {
+    font-size: .55em;
+}
+
+.finale-copy h3 {
+    font-size: clamp(20px, 3vw, 34px);
+
+    font-weight: 400;
+
+    color: rgba(242,245,255,.82);
+
+    margin-bottom: 20px;
+}
+
+#birthday-message {
+    width: min(550px, 85vw);
+    margin: 0 auto;
+
+    color: rgba(238,243,255,.6);
+
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.finale-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 15px;
+
+    margin: 35px 0;
+
+    color: var(--gold);
+}
+
+.finale-divider span {
+    width: 70px;
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(244,217,154,.6)
+        );
+}
+
+.finale-divider span:last-child {
+    transform: rotate(180deg);
+}
+
+.finale-end {
+    font-family: Arial, sans-serif;
+
+    font-size: 8px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+
+    color: rgba(255,255,255,.32);
+}
+
+#fireworks {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   UI
+============================================================ */
+
+#ui {
+    z-index: 100;
+    pointer-events: none;
+}
+
+#chapter {
+    position: absolute;
+
+    top: 34px;
+    left: 42px;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 8px;
+    letter-spacing: .35em;
+
+    color: rgba(255,255,255,.45);
+}
+
+#progress {
+    position: absolute;
+
+    left: 42px;
+    right: 42px;
+    bottom: 24px;
+
+    height: 1px;
+
+    background: rgba(255,255,255,.1);
+}
+
+#progress-bar {
+    display: block;
+
+    width: 0;
+    height: 100%;
+
+    background: rgba(255,255,255,.65);
+
+    transition: width .4s ease;
+}
+
+#sound-button {
+    position: absolute;
+
+    right: 42px;
+    top: 27px;
+
+    pointer-events: auto;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    border: 0;
+    background: transparent;
+
+    color: rgba(255,255,255,.5);
+
+    cursor: pointer;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 8px;
+    letter-spacing: .25em;
+
+    transition:
+        color .3s ease,
+        transform .3s ease;
+}
+
+#sound-button:hover {
+    color: white;
+    transform: translateY(-1px);
+}
+
+#sound-symbol {
+    font-size: 15px;
+}
+
+#subtitle {
+    position: absolute;
+
+    bottom: 48px;
+
+    left: 50%;
+
+    width: min(600px, 80vw);
+
+    transform:
+        translateX(-50%)
+        translateY(10px);
+
+    text-align: center;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 10px;
+    letter-spacing: .15em;
+
+    color: rgba(255,255,255,.48);
+
+    opacity: 0;
+
+    transition:
+        opacity .5s ease,
+        transform .5s ease;
+}
+
+#subtitle.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+
+/* ============================================================
+   VIGNETTE
+============================================================ */
+
+.vignette {
+    z-index: 90;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 40%,
+            rgba(0,0,0,.25) 72%,
+            rgba(0,0,0,.68) 100%
+        );
+}
+
+
+/* ============================================================
+   TRANSITION
+============================================================ */
+
+#transition {
+    z-index: 500;
+
+    background: #03050c;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity .7s ease;
+}
+
+#transition.active {
+    opacity: 1;
+}
+
+
+/* ============================================================
+   ANIMATIONS
+============================================================ */
+
+@keyframes loaderPulse {
+    0%,100% {
+        opacity: .3;
+        transform: scale(.9);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.15);
+    }
+}
+
+@keyframes backgroundBreath {
+    from {
+        transform: scale(1.025) translate3d(-.3%, -.2%, 0);
+    }
+
+    to {
+        transform: scale(1.06) translate3d(.3%, .2%, 0);
+    }
+}
+
+@keyframes moonFloat {
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+@keyframes moonDrift {
+    from {
+        margin-right: -8px;
+    }
+
+    to {
+        margin-right: 8px;
+    }
+}
+
+@keyframes starTwinkle {
+    0%,100% {
+        opacity: .25;
+        transform: scale(.7);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.25);
+    }
+}
+
+@keyframes shootingStar {
+    0% {
+        opacity: 0;
+        transform: translate(-100px, -100px) rotate(-28deg);
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    20% {
+        opacity: 0;
+        transform: translate(700px, 300px) rotate(-28deg);
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes auroraOne {
+    from {
+        transform: translate(0,0) rotate(-8deg);
+    }
+
+    to {
+        transform: translate(15%,8%) rotate(8deg);
+    }
+}
+
+@keyframes auroraTwo {
+    from {
+        transform: translate(0,0) rotate(8deg);
+    }
+
+    to {
+        transform: translate(-15%,-5%) rotate(-8deg);
+    }
+}
+
+@keyframes fireflyFloat {
+    0%,100% {
+        transform: translate3d(0,0,0);
+        opacity: .2;
+    }
+
+    50% {
+        transform: translate3d(
+            var(--x),
+            var(--y),
+            0
+        );
+        opacity: 1;
+    }
+}
+
+@keyframes mistMove {
+    from {
+        transform: translateX(-4%);
+    }
+
+    to {
+        transform: translateX(8%);
+    }
+}
+
+@keyframes interactiveStar {
+    0%,100% {
+        opacity: .45;
+        transform: scale(.8) rotate(0deg);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.25) rotate(45deg);
+    }
+}
+
+@keyframes giftAura {
+    0%,100% {
+        transform: translate(-50%,-50%) scale(.8);
+        opacity: .45;
+    }
+
+    50% {
+        transform: translate(-50%,-50%) scale(1.1);
+        opacity: .8;
+    }
+}
+
+@keyframes hintPulse {
+    0%,100% {
+        opacity: .35;
+    }
+
+    50% {
+        opacity: .9;
+    }
+}
+
+@keyframes finaleGlow {
+    0%,100% {
+        transform: translate(-50%,-50%) scale(.85);
+        opacity: .45;
+    }
+
+    50% {
+        transform: translate(-50%,-50%) scale(1.15);
+        opacity: .8;
+    }
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 700px) {
+
+    #background {
+        object-position: 55% center;
+    }
+
+    .moon {
+        width: 180px;
+        top: 10%;
+        right: 3%;
+    }
+
+    .cinematic-copy {
+        left: 7%;
+        bottom: 14%;
+    }
+
+    .cinematic-copy h2 {
+        font-size: clamp(42px, 12vw, 68px);
+    }
+
+    .copy {
+        font-size: 14px;
+        max-width: 320px;
+    }
+
+    .panda {
+        left: 62%;
+        bottom: 11%;
+        transform: scale(.75);
+    }
+
+    #scene-forest.active .panda {
+        transform: scale(.75);
+    }
+
+    .star-copy {
+        top: 15%;
+    }
+
+    .gift-copy {
+        top: 17%;
+    }
+
+    .gift {
+        top: 60%;
+    }
+
+    .letter-inner {
+        padding: 35px 24px;
+    }
+
+    .letter {
+        min-height: 350px;
+    }
+
+    .letter-inner {
+        min-height: 344px;
+    }
+
+    #chapter {
+        left: 20px;
+        top: 22px;
+    }
+
+    #sound-button {
+        right: 20px;
+        top: 18px;
+    }
+
+    #progress {
+        left: 20px;
+        right: 20px;
+        bottom: 17px;
+    }
+
+    .finale-copy h2 {
+        font-size: clamp(48px, 15vw, 90px);
+    }
+
+    #birthday-message {
+        font-size: 15px;
+    }
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+    }
+
+}
+
+/* ==========================================
+   PANDA — CINEMATIC IMAGE
+   ========================================== */
+
+.panda {
+    position: absolute;
+
+    width: clamp(240px, 32vw, 480px);
+    height: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+    border: none;
+    box-shadow: none;
+
+    z-index: 50;
+    pointer-events: none;
+}
+
+ .panda-image {
+    width: 100%;
+    height: auto;
+
+    display: block;
+    object-fit: contain;
+
+    background: transparent;
+
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+
+    filter:
+        drop-shadow(0 18px 25px rgba(0, 0, 0, 0.45))
+        drop-shadow(0 0 35px rgba(180, 210, 255, 0.22));
+
+    animation: pandaFloat 5s ease-in-out infinite;
+}
+
+@keyframes pandaImageFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* ============================================================
+   CHAPTER VI — HANDWRITTEN BIRTHDAY
+   ============================================================ */
+
+.chapter6-birthday {
+    font-family: "Caveat", cursive !important;
+
+    font-size: clamp(64px, 9vw, 125px);
+    font-weight: 500;
+    font-style: normal;
+
+    line-height: 1;
+    letter-spacing: 1px;
+
+    color: #ffffff;
+
+    text-align: center;
+
+    text-shadow:
+        0 0 8px rgba(255,255,255,.9),
+        0 0 25px rgba(210,225,255,.65),
+        0 0 55px rgba(150,180,255,.35);
+
+    /* hidden before reveal */
+    opacity: 0;
+    transform: translateY(25px);
+
+    clip-path: inset(0 100% 0 0);
+
+    transition:
+        opacity 1s ease,
+        transform 1.2s cubic-bezier(.22,1,.36,1),
+        clip-path 3.5s cubic-bezier(.65,0,.35,1);
+}
+
+
+/* Chapter VI reveal */
+
+.chapter6-birthday.show {
+    opacity: 1;
+    transform: translateY(0);
+
+    clip-path: inset(0 0 0 0);
+}
+
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+    .chapter6-birthday {
+        font-size: clamp(48px, 13vw, 78px);
+        padding: 0 20px;
+    }
+
+}
+
