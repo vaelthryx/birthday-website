@@ -36,7 +36,7 @@ letter:
 "May your dreams wander farther than the " +
 "stars, and may life surprise you in all the " +
 "right ways. " +
-"Happy Birthday. ✦"
+"Happy Birthday. ✦",
 
 chapters: [
 "CHAPTER I",
